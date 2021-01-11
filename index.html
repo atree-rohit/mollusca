@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mollusca Data</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+	<style type="text/css">
+		.card-header{
+			text-transform: capitalize;
+		}
+	</style>
+</head>
+<body class="container bg-primary">
+	<div id="data" class="bg-light card-group"></div>
+	<script type="text/javascript">
+		const data = [{"mollusc":"snail","habitat":"Lentic","shell_type":"Globose","species":"Pila globosa","family":"Ampullariidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Globose","species":"Pila virens","family":"Ampullariidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Globose","species":"Pila olea","family":"Ampullariidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Filopaludina bengalensis","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Idiopoma dissimilis","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Makongia crassa","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Cipangopaludina","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Bithinia textum","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Gabbia orcula","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Digoniostoma pulchella","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Hydrobioides nana","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Thin","species":"Lymnaea luteola","family":"Lymnaeidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Thin","species":"Lymnaea acuminata","family":"Lymnaeidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Thin","species":"Lymnaea biacuminata","family":"Lymnaeidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Elongated","species":"Melanoides tuberculatus","family":"Thiaridae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Elongated","species":"Thiara scabra","family":"Thiaridae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Elongated","species":"Tarebia Iineata","family":"Thiaridae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Indoplanorbis exustus","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Gyraulus convexiusculus","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Planorbis rotundatus","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Segmentina trochoidea","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Hippelltis umbilicalis","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Cremnoconchus syhadrensis","family":"Littorinidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Cremnoconchus conicus","family":"Littorinidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Neritina pertotiana","family":"Neritidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Conical","species":"Paludomus transchuricus","family":"Paludomidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Conical","species":"Paludomus stomatodon","family":"Paludomidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Conical","species":"Neosataria everzardi","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Elongated","species":"Brotia costula","family":"Pachychelidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Elongated","species":"Paracrostoma hugelii","family":"Pachychelidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Hat","species":"Ferrissia tenuis ","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Pila saxea","family":"Ampullariidae"}];
+
+		var unique_values = {}
+		data.forEach(row => {
+			Object.keys(row).forEach(k => {
+				if(k != "species"){
+					if(unique_values[k] == undefined){
+						unique_values[k] = [row[k]]
+					}
+					else{
+						unique_flag = true
+						unique_values[k].forEach(v => {
+							if(row[k] == v)
+								unique_flag = false;
+						})
+						if(unique_flag)
+							unique_values[k].push(row[k])
+					}
+				}
+			})
+		})
+
+		var op = ""
+		Object.keys(unique_values).forEach(k => {
+			vals = unique_values[k].join("<br>")
+
+			op += `<div class="card" style="width: 18rem;">
+				    <div class="card-header text-center bg-dark text-light">${k.replace(/_/g, ' ')}</div>
+					  <div class="card-body">
+					    <p class="card-text">${vals}</p>
+					  </div>
+				</div>`
+
+
+		})
+		document.getElementById("data").innerHTML = op
+
+	</script>
+</body>
+</html>
