@@ -7,13 +7,27 @@
 		.card-header{
 			text-transform: capitalize;
 		}
-		.card-text:hover, tbody tr:hover{
-			background-color: yellow;
+		.card-text{
+			padding :0 10px;
+		}
+		#table_section{
+			max-height:50vh;
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+		.tableFixHead          { overflow-y: auto; height: 100px; }
+		.tableFixHead thead th { position: sticky; top: 0; background-color: green}
+
+		.card-text:hover, #table_section tbody tr:hover{
+			background-color: yellow !important;
 			cursor: pointer;
 		}
-		.card-body .selected{
-			background-color: lightgreen;
+		#cards_section > .card > .card-body >.selected{
+			background-color: #dfb;
 			font-weight: bold;
+		}
+		#cards_section > .selected{
+			background-color: #9c9;
 		}
 
 	</style>
@@ -24,7 +38,7 @@
 		const raw_data = [{"mollusc":"snail","habitat":"Lentic","shell_type":"Globose","species":"Pila globosa","family":"Ampullariidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Globose","species":"Pila virens","family":"Ampullariidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Globose","species":"Pila olea","family":"Ampullariidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Filopaludina bengalensis","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Idiopoma dissimilis","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Makongia crassa","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Cipangopaludina","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Bithinia textum","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Gabbia orcula","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Digoniostoma pulchella","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Hydrobioides nana","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Thin","species":"Lymnaea luteola","family":"Lymnaeidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Thin","species":"Lymnaea acuminata","family":"Lymnaeidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Thin","species":"Lymnaea biacuminata","family":"Lymnaeidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Elongated","species":"Melanoides tuberculatus","family":"Thiaridae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Elongated","species":"Thiara scabra","family":"Thiaridae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Elongated","species":"Tarebia Iineata","family":"Thiaridae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Indoplanorbis exustus","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Gyraulus convexiusculus","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Planorbis rotundatus","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Segmentina trochoidea","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Hippelltis umbilicalis","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Cremnoconchus syhadrensis","family":"Littorinidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Cremnoconchus conicus","family":"Littorinidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Neritina pertotiana","family":"Neritidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Conical","species":"Paludomus transchuricus","family":"Paludomidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Conical","species":"Paludomus stomatodon","family":"Paludomidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Conical","species":"Neosataria everzardi","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Elongated","species":"Brotia costula","family":"Pachychelidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Elongated","species":"Paracrostoma hugelii","family":"Pachychelidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Hat","species":"Ferrissia tenuis ","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Pila saxea","family":"Ampullariidae"}];
 		var selected_fields = {"mollusc":[],"habitat":[],"shell_type":[],"family":[]}
 
-		document.getElementById("data").innerHTML = display_cards() + '<div id="table_section">' + display_results(raw_data) + '</div>'
+		document.getElementById("data").innerHTML = display_cards(raw_data) + '<div id="table_section">' + display_results(raw_data) + '</div>'
 
 		function generate_select_cards(data){
 			op = []
@@ -46,18 +60,20 @@
 					}
 				})
 			})
-			console.log(op);
+			Object.keys(op).forEach(k => {
+				op[k].sort()
+			})
 			return op
 		}
 
-		function display_cards(){
-			var unique_values = generate_select_cards(raw_data)
+		function display_cards(data){
+			var unique_values = generate_select_cards(data)
 			var op = ""
 			Object.keys(unique_values).forEach(k => {
 				vals = '<div class="card-text" onclick="select_filter()">' + unique_values[k].join('</div><div class="card-text" onclick="select_filter()">') + '</div>'
 				op += `<div id="${k}_card" class="card">
 					    <div class="card-header text-center bg-dark text-light">${k.replace(/_/g, ' ')}</div>
-						  <div class="card-body">
+						  <div class="card-body p-0">
 						    ${vals}
 						  </div>
 					</div>`
@@ -77,7 +93,11 @@
 						<td><strong>${row.species}</strong></td>
 					  </tr>`
 			})
-			return `<table class="table table-sm table-hover table-striped"><thead><tr><th>Mollusc</th><th>Habitat</th><th>Shell Type</th><th>Family</th><th>Species</th></tr></thead><tbody>${op}</tbody></table>`
+			return `<div class="row bg-secondary"><div class="col text-center text-light h4"><strong>${data.length} </strong> Results </div></div>
+					<table class="table tableFixHead table-sm table-striped text-center">
+						<thead class="text-light"><tr><th>Mollusc</th><th>Habitat</th><th>Shell Type</th><th>Family</th><th>Species</th></tr></thead>
+						<tbody class="">${op}</tbody>
+					</table>`
 		}
 
 		function select_filter(){
@@ -95,12 +115,38 @@
 				event.srcElement.classList.add("selected")
 				selected_fields[field_name].push(value)
 			}
+			Object.keys(selected_fields).forEach(k => {
+				classes = document.getElementById(k+"_card").className.split(" ")
+				if(selected_fields[k].length > 0){
+					if(classes.indexOf("selected") == -1){
+						document.getElementById(k+"_card").classList.add("selected")
+						document.getElementById(k+"_card").querySelector(".card-header").classList.remove("bg-dark")
+						document.getElementById(k+"_card").querySelector(".card-header").classList.add("bg-success")
+					}
+				} else {
+					document.getElementById(k+"_card").classList.remove("selected")
+					document.getElementById(k+"_card").querySelector(".card-header").classList.add("bg-dark")
+					document.getElementById(k+"_card").querySelector(".card-header").classList.remove("bg-success")
 
-			filter_results()
+				}
+			})
+
+			document.getElementById("table_section").innerHTML = display_results(filter_results())
+
 		}
 		function filter_results(){
-
-			console.log(selected_fields)
+			data = []
+			raw_data.forEach(row=> {
+				match_flag = true
+				Object.keys(selected_fields).forEach(field => {
+					if((selected_fields[field].length > 0) && (Object.values(selected_fields[field]).indexOf(row[field]) < 0)){
+						match_flag = false
+					}
+				})
+				if(match_flag)
+					data.push(row)
+			})
+			return data
 		}
 
 
