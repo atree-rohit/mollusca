@@ -4,5 +4,11 @@
   "display": "standalone",
   "description": "App to identify Molluscs",
   "scope": "/",
-  "start_url": "/"
+  "start_url": "/",
+  "icons": [
+        {
+            "src": "https://christine.website/static/img/avatar.png",
+            "sizes": "1024x1024"
+        }
+    ]
 }
