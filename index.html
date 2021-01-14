@@ -1,38 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>Mollusca Data</title>
 	<link href="assets/bootstrap.min.css" rel="stylesheet">
-	<style type="text/css">
-		.card-header{
-			text-transform: capitalize;
-		}
-		.card-text{
-			padding :0 10px;
-		}
-		#table_section{
-			max-height:50vh;
-			overflow-y: scroll;
-			overflow-x: hidden;
-		}
-		.tableFixHead          { overflow-y: auto; height: 100px; }
-		.tableFixHead thead th { position: sticky; top: 0; background-color: green}
-
-		.card-text:hover, #table_section tbody tr:hover{
-			background-color: yellow !important;
-			cursor: pointer;
-		}
-		#cards_section > .card > .card-body >.selected{
-			background-color: #dfb;
-			font-weight: bold;
-		}
-		#cards_section > .selected{
-			background-color: #9c9;
-		}
-	</style>
+	<link href="css/style.css" rel="stylesheet">
 	<link rel="manifest" href="./manifest.json">
+
+	<link rel="apple-touch-icon" href="images/shell-256.png">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="theme-color" content="lightgreen"/>
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="apple-mobile-web-app-title" content="Mollusca">
+	<meta name="msapplication-TileImage" content="images/shell-128.png">
+	<meta name="msapplication-TileColor" content="#FFFFFF">
 </head>
-<body class="container bg-primary">
+<body class="fullscreen container bg-primary">
 	<div id="data" class="bg-light container-fluid"></div>
 	<script type="text/javascript">
 		const raw_data = [{"mollusc":"snail","habitat":"Lentic","shell_type":"Globose","species":"Pila globosa","family":"Ampullariidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Globose","species":"Pila virens","family":"Ampullariidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Globose","species":"Pila olea","family":"Ampullariidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Filopaludina bengalensis","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Idiopoma dissimilis","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Makongia crassa","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Conical","species":"Cipangopaludina","family":"Viviparidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Bithinia textum","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Gabbia orcula","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Digoniostoma pulchella","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Minute","species":"Hydrobioides nana","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Thin","species":"Lymnaea luteola","family":"Lymnaeidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Thin","species":"Lymnaea acuminata","family":"Lymnaeidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Thin","species":"Lymnaea biacuminata","family":"Lymnaeidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Elongated","species":"Melanoides tuberculatus","family":"Thiaridae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Elongated","species":"Thiara scabra","family":"Thiaridae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Elongated","species":"Tarebia Iineata","family":"Thiaridae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Indoplanorbis exustus","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Gyraulus convexiusculus","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Planorbis rotundatus","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Segmentina trochoidea","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lentic","shell_type":"Flat","species":"Hippelltis umbilicalis","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Cremnoconchus syhadrensis","family":"Littorinidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Cremnoconchus conicus","family":"Littorinidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Neritina pertotiana","family":"Neritidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Conical","species":"Paludomus transchuricus","family":"Paludomidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Conical","species":"Paludomus stomatodon","family":"Paludomidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Conical","species":"Neosataria everzardi","family":"Bithinidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Elongated","species":"Brotia costula","family":"Pachychelidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Elongated","species":"Paracrostoma hugelii","family":"Pachychelidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Hat","species":"Ferrissia tenuis ","family":"Planorbidae"},{"mollusc":"snail","habitat":"Lotic","shell_type":"Globose","species":"Pila saxea","family":"Ampullariidae"}];
@@ -71,7 +55,7 @@
 			var op = ""
 			Object.keys(unique_values).forEach(k => {
 				vals = '<div class="card-text" onclick="select_filter()">' + unique_values[k].join('</div><div class="card-text" onclick="select_filter()">') + '</div>'
-				op += `<div id="${k}_card" class="card">
+				op += `<div id="${k}_card" class="card col-12 col-md-6">
 					    <div class="card-header text-center bg-dark text-light">${k.replace(/_/g, ' ')}</div>
 						  <div class="card-body p-0">
 						    ${vals}
@@ -79,7 +63,7 @@
 					</div>`
 			})
 
-			return "<div id='cards_section' class='card-group'>" + op + "</div>"
+			return "<div id='cards_section' class='row'>" + op + "</div>"
 		}
 
 		function display_results(data){
@@ -148,12 +132,8 @@
 			})
 			return data
 		}
-
-		if (!navigator.serviceWorker.controller) {
-			navigator.serviceWorker.register("/sw.js").then(function(reg) {
-				console.log("Service worker has been registered for scope: " + reg.scope);
-			});
-		}
 	</script>
+
+  <script src="js/main.js"></script>
 </body>
 </html>

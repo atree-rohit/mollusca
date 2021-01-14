@@ -1,14 +1,28 @@
 {
-  "theme_color": "#2196f3",
-  "background_color": "#2196f3",
-  "display": "standalone",
-  "description": "App to identify Molluscs",
-  "scope": "/",
-  "start_url": "/",
-  "icons": [
+    "name": "Mollusca",
+    "short_name": "Snails",
+    "description": "App to identify Molluscs",
+    "lang": "en-US",
+    "scope": "/",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "orientation": "landscape",
+    "theme_color": "#2196f3",
+    "background_color": "lightgreen",
+    "icons": [
         {
-            "src": "https://christine.website/static/img/avatar.png",
-            "sizes": "1024x1024"
-        }
-    ]
+            "src": "images/shell-128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+    	}, {
+            "src": "images/shell-256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+    	}, {
+            "src": "images/shell-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+    	},
+    ],
+    "screenshots": []
 }
