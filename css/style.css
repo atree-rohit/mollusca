@@ -1,0 +1,35 @@
+html,
+.fullscreen {
+  display: flex;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+
+.card-header{
+	text-transform: capitalize;
+}
+.card-text{
+	padding :0 10px;
+}
+#table_section{
+	max-height:50vh;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+.tableFixHead          { overflow-y: auto; height: 100px; }
+.tableFixHead thead th { position: sticky; top: 0; background-color: green}
+
+.card-text:hover, #table_section tbody tr:hover{
+	background-color: yellow !important;
+	cursor: pointer;
+}
+#cards_section > .card > .card-body >.selected{
+	background-color: #dfb;
+	font-weight: bold;
+}
+#cards_section > .selected{
+	background-color: #9c9;
+}
